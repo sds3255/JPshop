@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -28,7 +27,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int orderPrice;
+    private int orderPrice;  //주문 가격
     private int count;  //주문 수량
 
     //==생성 메서드 ==//
