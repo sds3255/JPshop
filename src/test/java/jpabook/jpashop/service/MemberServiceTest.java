@@ -19,13 +19,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional  //DB에 INSERT 쿼리가 실행되고 나서 rollback이 시행되는 로직으로 기본적으로 rollback을 시행한다.
                 //(단 repository나 service단에서는 rollback하지 않는다.)
                 //console에 select이외 쿼리는 보여주지 않는다.
+                //test라는 것은 반복적으로 하는 것이기 때문에 transaction이 rollback을 기본으로 하게 된다.
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
-    @Autowired EntityManager em;   //transactional 어노테이션의 rollback으로 인해 쿼리가 보이지 않을때 사용하는 방법
+    //@Autowired EntityManager em;   //transactional 어노테이션의 rollback으로 인해 쿼리가 보이지 않을때 사용하는 방법
 
     @Test
+    //@Rollback(false) //transaction의 rollback이 하기 싫을 때 사용
     public void 회원가입() throws Exception {
         //given
         Member member = new Member();
@@ -35,7 +37,7 @@ public class MemberServiceTest {
         Long savedId = memberService.join(member);
 
         //then
-        //em.flush(); //console에 insert구문을 보여준다.
+        //em.flush(); //console에 insert구문을 보여준다. insert 쿼리가 나간후 rollback한다.
         assertEquals(member,memberRepository.findOne(savedId));
     }
     
